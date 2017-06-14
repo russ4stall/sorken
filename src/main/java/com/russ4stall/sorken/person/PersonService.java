@@ -1,34 +1,56 @@
 package com.russ4stall.sorken.person;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PersonService {
     private List<Person> people;
-    private List<PersonAddedListener> listeners;
+    private List<PersonUpdatedListener> listeners;
 
     public PersonService() {
-        people = new ArrayList<>();
-        listeners = new ArrayList<>();
+        people = new CopyOnWriteArrayList<>();
+        listeners = new CopyOnWriteArrayList<>();
     }
 
-    public void addPerson(Person person) {
+    public Person getPersonById(int id) {
+        Person person = people.stream()
+                .filter(x -> x.getId() == id)
+                .findFirst()
+                .get();
+
+        return person;
+    }
+
+    public Person addPerson(Person person) {
         person.setId(getNextId());
         people.add(person);
-        notifyPersonAddedListeners(person);
+        notifyPersonUpdatedListeners(person);
+        return person;
+    }
+
+    public void updatePerson(Person person) {
+        Person toUpdate = people.stream()
+                .filter(x -> x.getId() == person.getId())
+                .findFirst()
+                .get();
+
+        toUpdate.setName(person.getName());
+        toUpdate.setNotes(person.getNotes());
+        toUpdate.setAge(person.getAge());
+
+        notifyPersonUpdatedListeners(toUpdate);
     }
 
     public void removePerson(int personId) {
-        
-        for (int i = people.size() - 1; i >= 0; i--) {
-            if (people.get(i).getId() == personId) {
-                people.remove(i);
+        Person person = people.stream()
+                .filter(x -> x.getId() == personId)
+                .findFirst()
+                .get();
 
-                //notifyPersonRemovedListeners(personId);
+        people.remove(person);
+        person.setDeleted(true);
 
-            }
-        }
-
+        notifyPersonUpdatedListeners(person);
     }
 
     public List<Person> getPeople() {
@@ -47,17 +69,14 @@ public class PersonService {
         return ++id;
     }
 
-    public void registerPersonAddedListener (PersonAddedListener listener) {
-        // Add the listener to the list of registered listeners
+    public void registerPersonUpdatedListener(PersonUpdatedListener listener) {
         this.listeners.add(listener);
     }
-    public void unregisterPersonAddedListener (PersonAddedListener listener) {
-        // Remove the listener from the list of the registered listeners
+    public void unregisterPersonUpdatedListener(PersonUpdatedListener listener) {
         this.listeners.remove(listener);
     }
 
-    protected void notifyPersonAddedListeners (Person person) {
-        // Notify each of the listeners in the list of registered listeners
-        this.listeners.forEach(listener -> listener.onPersonAdded(person));
+    protected void notifyPersonUpdatedListeners (Person person) {
+        this.listeners.forEach(listener -> listener.onUpdate(person));
     }
 }

@@ -12,7 +12,7 @@ public class AppListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         PersonService personService = new PersonService();
-        personService.addPerson(new Person("Russ", 28));        
+        personService.addPerson(new Person("Russ", 28, "He's sooo handsome."));
 
         event.getServletContext().setAttribute("personService", personService);
     }

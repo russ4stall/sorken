@@ -30,7 +30,7 @@
         <div class="row">
 
             <div class="col-sm-6">
-                <form action="/sorken/people" method="POST">
+                <form action="/people" method="POST">
                     <input type="hidden" name="action" value="ADD">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Name</label>

@@ -14,7 +14,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
-@WebServlet("/")
+@WebServlet("")
 public class IndexServlet extends HttpServlet {
 
 	@Override

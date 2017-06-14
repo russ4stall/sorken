@@ -1,7 +1,6 @@
 package com.russ4stall.sorken;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -16,13 +15,12 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import com.russ4stall.sorken.person.Person;
-import com.russ4stall.sorken.person.PersonAddedListener;
+import com.russ4stall.sorken.person.PersonUpdatedListener;
 import com.russ4stall.sorken.person.PersonService;
 import com.google.gson.Gson;
-import com.russ4stall.sorken.ServletAwareConfig;
 
 @ServerEndpoint(value="/watch-for-people", configurator=ServletAwareConfig.class)
-public class CreeperSocket implements PersonAddedListener{
+public class CreeperSocket implements PersonUpdatedListener {
     private Session session;    
     private static Set<Session> sessions = new CopyOnWriteArraySet<>();
     private PersonService personService;
@@ -31,7 +29,7 @@ public class CreeperSocket implements PersonAddedListener{
     public void onOpen(Session session, EndpointConfig config) throws Exception {  
         HttpSession httpSession = (HttpSession) config.getUserProperties().get("httpSession");
         personService = (PersonService) httpSession.getServletContext().getAttribute("personService");
-        personService.registerPersonAddedListener(this);
+        personService.registerPersonUpdatedListener(this);
 
         this.session = session;
         sessions.add(session);
@@ -51,6 +49,7 @@ public class CreeperSocket implements PersonAddedListener{
      @OnClose
      public void onClose(Session session) {
          //sessions.remove(session);
+         personService.unregisterPersonUpdatedListener(this);
      }
 
     @OnError
@@ -59,7 +58,7 @@ public class CreeperSocket implements PersonAddedListener{
     }
 
     @Override
-    public void onPersonAdded(Person person) {
+    public void onUpdate(Person person) {
         Gson gson = new Gson();
         String json = gson.toJson(person);
         

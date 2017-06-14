@@ -34,7 +34,7 @@ public class PersonServlet extends HttpServlet {
                 break;
             case "REMOVE": handleRemove(req);
         }
-        resp.sendRedirect("/sorken/people");
+        resp.sendRedirect("/people");
     }
 
     private void handleAdd(HttpServletRequest req) {        
@@ -43,6 +43,7 @@ public class PersonServlet extends HttpServlet {
 
         String nameParam = req.getParameter("name");
         String ageParam = req.getParameter("age");
+        String notes = req.getParameter("notes");
 
         int age = 0;
         String name = "DEFAULT";
@@ -55,7 +56,7 @@ public class PersonServlet extends HttpServlet {
             name = nameParam;
         }
 
-        personService.addPerson(new Person(name, age));
+        personService.addPerson(new Person(name, age, notes));
     }
 
     private void handleRemove(HttpServletRequest req) {

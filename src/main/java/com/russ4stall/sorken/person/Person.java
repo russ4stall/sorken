@@ -4,16 +4,16 @@ public class Person {
     private int id;
     private String name;
     private int age;
+    private String notes;
+    private boolean isDeleted;
 
-    public Person(String name, int age) {
+    public Person(String name, int age, String notes) {
         this.name = name;
         this.age = age;
+        this.notes = notes;
     }
 
-    public Person(int id, String name, int age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
+    public Person() {
     }
 
     public int getId() {
@@ -38,5 +38,21 @@ public class Person {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }
