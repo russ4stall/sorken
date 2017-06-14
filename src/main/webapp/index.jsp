@@ -22,7 +22,7 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <table id="people-table" class="table table-striped">
+                    <table id="people-table" class="table table-sm">
                         <thead>
                             <tr>
                                 <th>Id</th>
@@ -40,44 +40,44 @@
                                 <td data-bind="text: $data.age"></td>
                                 <td data-bind="text: $data.notes"></td>
                                 <td>
-                                    <button class="btn btn-outline-primary" data-bind="click: editToggle">Edit</button>
-                                    <button class="btn btn-outline-danger" data-bind="click: deletePerson">Delete</button>
+                                    <button class="btn btn-outline-primary btn-sm" data-bind="click: editToggle">Edit</button>
+                                    <button class="btn btn-outline-danger btn-sm" data-bind="click: deletePerson">Delete</button>
                                 </td>
                             </tr>
                             <tr data-bind="if: $data.inEditMode">
                                 <td data-bind="text: $data.id"></td>
                                 <td>
-                                    <input class="form-control" type="text" data-bind="value: $data.editName">
+                                    <input class="form-control form-control-sm" type="text" required data-bind="value: $data.editName">
                                 </td>
                                 <td>
-                                    <input class="form-control" type="text" data-bind="value: $data.editAge">
+                                    <input class="form-control form-control-sm" type="number" required data-bind="value: $data.editAge">
                                 </td>
                                 <td>
-                                    <input class="form-control" type="text" data-bind="value: $data.editNotes">
+                                    <input class="form-control form-control-sm" type="text" required data-bind="value: $data.editNotes">
                                 </td>
                                 <td>
-                                    <button class="btn btn-outline-secondary" data-bind="click: cancel">Cancel</button>
-                                    <button class="btn btn-outline-primary" data-bind="click: save">Save</button>
+                                    <button class="btn btn-outline-secondary btn-sm" data-bind="click: cancel">Cancel</button>
+                                    <button class="btn btn-outline-primary btn-sm" data-bind="click: save">Save</button>
                                 </td>
                             </tr>
                         </tbody>
-                        <tbody>
+                        <tfoot>
                             <tr>
                                 <td></td>
                                 <td>
-                                    <input class="form-control" type="text" data-bind="value: newPerson.editName">
+                                    <input class="form-control" type="text" placeholder="Name" required data-bind="value: newPerson.editName">
                                 </td>
                                 <td>
-                                    <input class="form-control" type="text" data-bind="value: newPerson.editAge">
+                                    <input class="form-control" type="number" placeholder="Age" required data-bind="value: newPerson.editAge">
                                 </td>
                                 <td>
-                                    <input class="form-control" type="text" data-bind="value: newPerson.editNotes">
+                                    <input class="form-control" type="text" placeholder="Notes" required data-bind="value: newPerson.editNotes">
                                 </td>
                                 <td>                                    
                                     <button class="btn btn-primary" data-bind="click: addPerson">Add</button>
                                 </td>
                             </tr>
-                        </tbody>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -132,10 +132,10 @@
                         url: url,
                         type: 'PUT',
                         success: function () {
-                            this.name(self.editName());
-                            this.age(self.editAge());
-                            this.notes(self.editNotes());
-                            this.inEditMode(false);
+                            self.name(self.editName());
+                            self.age(self.editAge());
+                            self.notes(self.editNotes());
+                            self.inEditMode(false);
                         }
                     });
                 };
