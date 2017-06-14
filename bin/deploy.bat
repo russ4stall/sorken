@@ -1,1 +1,1 @@
-copy "target\sorken.war" "%CATALINA_HOME%\webapps\sorken.war"
+copy "target\sorken.war" "%CATALINA_HOME%\webapps\ROOT.war"
